@@ -19,5 +19,10 @@ RUN sed -i 's|page: e\.organizationalTarget\.split|pageId: e.organizationalTarge
 RUN sed -i 's|body\.page\b|body.pageId|g' \
     /app/apps/backend/dist/apps/backend/src/api/routes/integrations.controller.js
 
+# Patch 4: Fix permissions for uploads and cache directories
+RUN mkdir -p /uploads /app/apps/frontend/.next/cache/images && \
+    chown -R node:node /uploads /app/apps/frontend/.next/cache && \
+    chmod -R 755 /uploads /app/apps/frontend/.next/cache
+
 USER node
 EXPOSE 3000 5000
