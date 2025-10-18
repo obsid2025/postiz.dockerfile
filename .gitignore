@@ -1,0 +1,21 @@
+# Postiz source code (prea mare pentru repo)
+postiz-source/
+
+# Temporary files
+*.tmp
+nul
+
+# IDE
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
