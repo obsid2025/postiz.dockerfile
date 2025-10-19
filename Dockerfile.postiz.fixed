@@ -24,5 +24,10 @@ RUN mkdir -p /uploads /app/apps/frontend/.next/cache/images && \
     chown -R node:node /uploads /app/apps/frontend/.next/cache && \
     chmod -R 755 /uploads /app/apps/frontend/.next/cache
 
+# Patch 5: Disable public registration - prevent unauthorized users from consuming resources
+# Changes canRegister() to always return false, hiding Sign Up button and blocking registration endpoint
+RUN sed -i 's|register: await this._authService.canRegister|register: false // Disabled by Patch 5: await this._authService.canRegister|g' \
+    /app/apps/backend/dist/apps/backend/src/api/routes/auth.controller.js
+
 USER node
 EXPOSE 3000 5000
