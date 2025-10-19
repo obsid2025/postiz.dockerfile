@@ -25,8 +25,8 @@ RUN mkdir -p /uploads /app/apps/frontend/.next/cache/images && \
     chmod -R 755 /uploads /app/apps/frontend/.next/cache
 
 # Patch 5: Disable public registration - prevent unauthorized users from consuming resources
-# Changes canRegister() to always return false, hiding Sign Up button and blocking registration endpoint
-RUN sed -i 's|register: await this._authService.canRegister|register: false // Disabled by Patch 5: await this._authService.canRegister|g' \
+# Block the register endpoint by returning 403 immediately
+RUN sed -i 's|async register(req, body, response, ip, userAgent) {|async register(req, body, response, ip, userAgent) {\n        response.status(403).send("Registration is disabled on this instance");\n        return;|g' \
     /app/apps/backend/dist/apps/backend/src/api/routes/auth.controller.js
 
 USER node
